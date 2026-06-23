@@ -4,7 +4,7 @@ A two-stage toolkit that maps and visualises the **viable (stable) region** of t
 Shift-Symmetric modified-gravity model as implemented in
 [EFTCAMB](https://eftcamb.org/), in the two-dimensional parameter plane
 
-$\theta = (\texttt{Shift\_Symmetric\_alphaB0},\ \texttt{Shift\_Symmetric\_m}) = (\alpha_{B,0}, m)$
+$\theta = (\alpha_{B,0},m)$
 
 The package contains two scripts:
 
