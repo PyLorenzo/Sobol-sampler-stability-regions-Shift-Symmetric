@@ -70,11 +70,11 @@ The user's Cobaya YAML is read and stripped down:
   `loglike == 0` **if and only if** all theory components initialise successfully, and
   `-inf` otherwise — so the *only* thing that can send the log-likelihood to `-inf` is
   EFTCAMB's internal stability check;
-- the six $\Lambda CDM$ parameters ($\Omega_b^2$,$\Omega_c^2$, $tau$, $logA$, $n_s$, $H_0$) are pinned at the
+- the six $\Lambda CDM$ parameters ($\Omega_b^2$, $\Omega_c^2$, $tau$, $logA$, $n_s$, $H_0$) are pinned at the
   centres of their reference distributions. They are declared as "sampled" with a
   trivial uniform prior solely so that Cobaya accepts them as inputs — the prior is
   never consulted;
-- `alphaK0`, `EFTw0`, `EFTwa` are declared with `value:` in the YAML and handled as
+- $\alpha_{K,0}$, $w_0$, $w_a$ are declared with `value:` in the YAML and handled as
   fixed constants by Cobaya;
 - the YAML's derived-parameter definitions (e.g. $A_s$ <- $logA$) are carried over so
   CAMB still receives the inputs it expects.
