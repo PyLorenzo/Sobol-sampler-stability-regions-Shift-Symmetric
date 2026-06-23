@@ -154,7 +154,7 @@ or all unstable) and $\nu_i = 1$ when exactly half the neighbours are stable —
 signature of a point sitting on the boundary. The score is fully non-parametric; no
 shape is assumed for the boundary.
 
-**Refinement box.** The points in the top decile of uncertainty ($\text{top\_quantile} = 0.9$)
+**Refinement box.** The points in the top decile of uncertainty (top quantile $= 0.9$)
 define an axis-aligned bounding box, which is padded by $5\%$ on each side, clipped back
 to the physical prior box, and then re-sampled with a fresh Sobol batch. If fewer than
 four boundary points exist (too early to localise a boundary), the code falls back to a
