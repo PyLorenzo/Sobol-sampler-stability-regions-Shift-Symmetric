@@ -116,9 +116,9 @@ than pseudo-random Monte Carlo.
   a fixed seed, without degrading the net property.
 
 The unit-cube points are mapped linearly onto the physical prior box,
-$$
-\theta_j = lower_j + (higher_j - lower_j) \cdot u_j
-$$
+
+$$\theta_j = lower_j + (higher_j - lower_j) \cdot u_j$$
+
 
 ### 2.4 Parallel evaluation (`evaluate_points`, `_worker_init`, `_worker_eval`)
 
