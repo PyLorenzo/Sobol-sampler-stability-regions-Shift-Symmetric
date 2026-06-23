@@ -4,9 +4,7 @@ A two-stage toolkit that maps and visualises the **viable (stable) region** of t
 Shift-Symmetric modified-gravity model as implemented in
 [EFTCAMB](https://eftcamb.org/), in the two-dimensional parameter plane
 
-```
-theta = (Shift_Symmetric_alphaB0, Shift_Symmetric_m)  =  (alpha_{B,0}, m)
-```
+$\theta = (\texttt{Shift\_Symmetric\_alphaB0},\ \texttt{Shift\_Symmetric\_m}) = (\alpha_{B,0}, m)$
 
 The package contains two scripts:
 
@@ -22,30 +20,30 @@ The package contains two scripts:
 The Shift-Symmetric model parametrises the **braiding** function of the
 Horndeski/α-basis as
 
-```
-alpha_B(a) = alpha_{B,0} * ( H_0 / H(a) )^(4/m)
-```
+$$
+\alpha_B(a) = \alpha_{B,0} \left(\frac{H_0}{H(a)}\right)^{4/m}
+$$
 
 with two free constants, `alpha_{B,0}` and `m` (the parametrisation proposed by
 Traykova et al. 2021 for shift-symmetric scalar-tensor theories on a CPL/`w0waCDM`
 background). The remaining α-function `alpha_K` is set by a fiducial `alpha_K0`, and
 the background equation of state is fixed through `EFTw0`, `EFTwa`.
 
-For each choice of `(alpha_{B,0}, m)`, EFTCAMB evolves the linear perturbations and
-checks, at every time step and every scale up to `k_max`, a set of **viability
+For each choice of $(\alpha_{B,0}, m)$, EFTCAMB evolves the linear perturbations and
+checks, at every time step and every scale up to $k_{\mathrm{max}}$, a set of **viability
 conditions**:
 
 - **no-ghost**: the kinetic term of the extra scalar degree of freedom is positive
-  (`Q_s > 0`);
+  ($Q_s > 0$);
 - **no-gradient instability**: the scalar sound speed squared is positive
-  (`c_s^2 > 0`);
-- **mathematical (classical) stability** of the `pi`-field equation (well-posed
+  ($c_s^2 > 0$);
+- **mathematical (classical) stability** of the $\pi$-field equation (well-posed
   leading coefficient, no fast exponential growth), plus a well-defined tensor
   equation.
 
 If any condition fails at any redshift or scale, EFTCAMB flags the point as
 **unstable**. The set of points that pass *all* active conditions forms the stability
-region. Its boundary in `(alpha_{B,0}, m)` is **not known analytically**, which is why
+region. Its boundary in $(\alpha_{B,0}, m)$ is **not known analytically**, which is why
 it is mapped numerically here.
 
 > The stability flags that are enforced are exactly those configured in the user's
@@ -72,7 +70,7 @@ The user's Cobaya YAML is read and stripped down:
   `loglike == 0` **if and only if** all theory components initialise successfully, and
   `-inf` otherwise — so the *only* thing that can send the log-likelihood to `-inf` is
   EFTCAMB's internal stability check;
-- the six ΛCDM parameters (`ombh2, omch2, tau, logA, ns, H0`) are pinned at the
+- the six $\Lambda$CDM parameters (`ombh2, omch2, tau, logA, ns, H0`) are pinned at the
   centres of their reference distributions. They are declared as "sampled" with a
   trivial uniform prior solely so that Cobaya accepts them as inputs — the prior is
   never consulted;
@@ -87,7 +85,7 @@ to-two order of magnitude speed-up.
 
 ### 2.2 The stability oracle (`is_stable`)
 
-For a parameter point `theta`,
+For a parameter point $\theta$,
 
 ```python
 ll = model.loglike(theta, make_finite=False, cached=False, return_derived=False)
@@ -104,21 +102,23 @@ is caught and treated as **unstable** — the code errs on the safe side.
 The base sample is drawn from a **scrambled Sobol low-discrepancy sequence** rather
 than pseudo-random Monte Carlo.
 
-- A Sobol sequence in base 2 is a `(0, m, 2)`-net at `N = 2^m`: every dyadic sub-box
-  of the unit square with area `2^{-m}` contains *exactly one* point. The unit square
+- A Sobol sequence in base 2 is a $(0, m, 2)$-net at $N = 2^m$: every dyadic sub-box
+  of the unit square with area $2^{-m}$ contains *exactly one* point. The unit square
   is therefore covered with no gaps and no clumps.
-- The star discrepancy of such a net scales as `O(log N / N)`, versus `O(N^{-1/2})`
+- The star discrepancy of such a net scales as $O(\log N / N)$, versus $O(N^{-1/2})$
   for pseudo-random points. By the Koksma–Hlawka inequality the integration / coverage
-  error is bounded by `V_HK(f) * D*_N`, so a smaller discrepancy directly means a more
-  accurate estimate of the stable volume fraction at fixed `N`.
-- The net property is exact only when `N` is a power of two, so the requested sample
-  size `n` is rounded **up** to `2^ceil(log2 n)`, generated, and then truncated to `n`.
+  error is bounded by $V_{\mathrm{HK}}(f) \cdot D^*_N$, so a smaller discrepancy directly means a more
+  accurate estimate of the stable volume fraction at fixed $N$.
+- The net property is exact only when $N$ is a power of two, so the requested sample
+  size $n$ is rounded **up** to $2^{\lceil\log_2 n\rceil}$, generated, and then truncated to $n$.
   This keeps the strongest available balance within the caller's budget.
 - `scramble=True` (Owen scrambling) makes the estimator unbiased and reproducible from
   a fixed seed, without degrading the net property.
 
 The unit-cube points are mapped linearly onto the physical prior box,
-`theta_j = lo_j + (hi_j - lo_j) * u_j`.
+$$
+\theta_j = \mathrm{lo}_j + (\mathrm{hi}_j - \mathrm{lo}_j) \cdot u_j
+$$
 
 ### 2.4 Parallel evaluation (`evaluate_points`, `_worker_init`, `_worker_eval`)
 
@@ -141,21 +141,21 @@ parallelisation strategy:
 After the global sample is labelled, the script concentrates additional points near
 the stability boundary, where the map is most informative.
 
-**Uncertainty score.** Coordinates are normalised to `[0,1]^2` so both parameters
-weigh equally in the distance metric. For each point the fraction `f_i` of stable
-points among its `k` nearest neighbours (k-NN, default `k = 8`) is computed, and
+**Uncertainty score.** Coordinates are normalised to $[0,1]^2$ so both parameters
+weigh equally in the distance metric. For each point the fraction $f_i$ of stable
+points among its $k$ nearest neighbours (k-NN, default $k = 8$) is computed, and
 
-```
-u_i = 1 - |2 f_i - 1|
-```
+$$
+u_i = 1 - \left\lvert 2 f_i - 1 \right\rvert
+$$
 
-This is a tent function of `f_i`: `u_i = 0` in a homogeneous neighbourhood (all stable
-or all unstable) and `u_i = 1` when exactly half the neighbours are stable — the
+This is a tent function of $f_i$: $\nu_i = 0$ in a homogeneous neighbourhood (all stable
+or all unstable) and $\nu_i = 1$ when exactly half the neighbours are stable — the
 signature of a point sitting on the boundary. The score is fully non-parametric; no
 shape is assumed for the boundary.
 
-**Refinement box.** The points in the top decile of uncertainty (`top_quantile = 0.9`)
-define an axis-aligned bounding box, which is padded by 5 % on each side, clipped back
+**Refinement box.** The points in the top decile of uncertainty ($\text{top\_quantile} = 0.9$)
+define an axis-aligned bounding box, which is padded by $5\%$ on each side, clipped back
 to the physical prior box, and then re-sampled with a fresh Sobol batch. If fewer than
 four boundary points exist (too early to localise a boundary), the code falls back to a
 global Sobol draw. This repeats `--refine-iters` times.
@@ -168,7 +168,7 @@ A single pickle is written with the following schema:
 {
   "param_names":  ["Shift_Symmetric_alphaB0", "Shift_Symmetric_m"],
   "param_ranges": {name: (lo, hi), ...},
-  "ss_fixed":     {ΛCDM name: value, ...},
+  "ss_fixed":     {"$\Lambda$CDM name": value, ...},
   "points":       ndarray shape (N, 2),   # all evaluated points
   "stable":       ndarray shape (N,),     # bool labels
   "iter_info":    [ {"phase", "n", "stable_frac"}, ... ],
@@ -181,8 +181,8 @@ A single pickle is written with the following schema:
 ## 3. How `ss_stability_viz.py` works
 
 Reads the pickle and produces two corner-style PNGs. With a single 2-D parameter pair
-the "corner" is a 2×2 grid: two 1-D marginals on the diagonal and one off-diagonal
-panel for the `(alpha_{B,0}, m)` plane.
+the "corner" is a $2\times 2$ grid: two 1-D marginals on the diagonal and one off-diagonal
+panel for the $(\alpha_{B,0}, m)$ plane.
 
 ### 3.1 Scatter corner (`scatter_corner` → `ss_stability_scatter.png`)
 
@@ -202,17 +202,17 @@ the raw shape of the stable set.
 Each off-diagonal panel estimates the local stable fraction by binning the points in
 2-D and averaging the binary label:
 
-```
-p_hat(bin) = (number of stable points in bin) / (total points in bin)
-```
+$$
+\hat{p}(\mathrm{bin}) = \frac{\text{number of stable points in bin}}{\text{total points in bin}}
+$$
 
 Because `stable` is cast to `float` (0/1), the bin mean *is* the empirical
-`P(stable | alpha_{B,0}, m)`. The diagonal shows the 1-D version,
-`P(stable | x_i)`. Two safeguards keep the estimate honest:
+$P(\text{stable} \mid \alpha_{B,0}, m)$. The diagonal shows the 1-D version,
+$P(\text{stable} \mid x_i)$. Two safeguards keep the estimate honest:
 
 - bins with fewer than `--min-count` points (default 3) are **masked** (shown grey)
   rather than reported, to avoid over-confident fractions from undersampled cells;
-- the colour scale is fixed to `[0, 1]` with a single shared colour bar, so panels are
+- the colour scale is fixed to $[0, 1]$ with a single shared colour bar, so panels are
   directly comparable.
 
 The colour map is `RdYlGn` (red = unstable, green = stable), with masked/undersampled
@@ -220,8 +220,8 @@ cells in light grey.
 
 > **Interpretation note.** With adaptive refinement the sampling density is *not*
 > uniform — points are deliberately concentrated near the boundary. The heatmap fraction
-> is still a valid *local* estimate of `P(stable)` within each bin, but the diagonal
-> 1-D "P(stable)" curves are conditioned on the (non-uniform) sampling and should not be
+> is still a valid *local* estimate of $P(\text{stable})$ within each bin, but the diagonal
+> 1-D "$P(\text{stable})$" curves are conditioned on the (non-uniform) sampling and should not be
 > read as a marginalisation over a flat prior. For an unbiased marginal, regenerate the
 > map with `--refine-iters 0` (pure global Sobol).
 
