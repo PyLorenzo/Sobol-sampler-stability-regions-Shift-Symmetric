@@ -26,7 +26,7 @@ $$
 
 with two free constants, $\alpha_{B,0}$ and $m$ (the parametrisation proposed by
 Traykova et al. 2021 for shift-symmetric scalar-tensor theories on a CPL/`w0waCDM`
-background). The remaining α-function $\alpha_K$ is set by a fiducial `alpha_K0`, and
+background). The remaining α-function $\alpha_K$ is set by a fiducial $\alpha_{K,0}$, and
 the background equation of state is fixed through $w_0$, $w_a$.
 
 For each choice of $(\alpha_{B,0}, m)$, EFTCAMB evolves the linear perturbations and
