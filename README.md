@@ -221,7 +221,7 @@ cells in light grey.
 > **Interpretation note.** With adaptive refinement the sampling density is *not*
 > uniform — points are deliberately concentrated near the boundary. The heatmap fraction
 > is still a valid *local* estimate of $P(stable)$ within each bin, but the diagonal
-> 1-D "$P(stable)$" curves are conditioned on the (non-uniform) sampling and should not be
+> 1-D $P(stable)$ curves are conditioned on the (non-uniform) sampling and should not be
 > read as a marginalisation over a flat prior. For an unbiased marginal, regenerate the
 > map with `--refine-iters 0` (pure global Sobol).
 
